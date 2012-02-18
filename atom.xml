@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[My personal dev blog]]></title>
+  <link href="http://juanje.github.com/atom.xml" rel="self"/>
+  <link href="http://juanje.github.com/"/>
+  <updated>2012-02-18T02:42:15+00:00</updated>
+  <id>http://juanje.github.com/</id>
+  <author>
+    <name><![CDATA[Juanje Ojeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
