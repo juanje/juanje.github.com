@@ -4,7 +4,7 @@
   <title><![CDATA[My personal dev blog]]></title>
   <link href="http://juanje.github.com/atom.xml" rel="self"/>
   <link href="http://juanje.github.com/"/>
-  <updated>2012-02-18T05:40:10+00:00</updated>
+  <updated>2012-03-06T02:31:58+00:00</updated>
   <id>http://juanje.github.com/</id>
   <author>
     <name><![CDATA[Juanje Ojeda]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[back with Ruby]]></title>
+    <link href="http://juanje.github.com/blog/2012/03/06/back-with-ruby/"/>
+    <updated>2012-03-06T01:57:00+00:00</updated>
+    <id>http://juanje.github.com/blog/2012/03/06/back-with-ruby</id>
+    <content type="html"><![CDATA[<p>Long time ago (thanks to a <a href="http://hcoder.org/">good friend</a>) <strong>I felt in love with Ruby</strong> (<em>I think it was around 2001</em>), but I didn&#8217;t get much into it until years later (2005) when I did some stuff at work.
+All these years I&#8217;ve been thinking about come back to learn Ruby and write some code, but you know&#8230; time, work&#8230;</p>
+
+<p>Now I&#8217;m free and have some free time for me to learn all the thing I want, so I&#8217;ll do so :-)</p>
+
+<p>After (buy and) read some books from <a href="http://pragprog.com/">The Pragmatic Bookself</a> I decided to give a try to the famous <a href="http://pragprog.com/book/ruby3/programming-ruby-1-9">Programming Ruby</a>. I checked the new version and I realised the book was really improved from the previous ones. <em>Ruby 1.9</em> and really better explanations about the differents subjects.</p>
+
+<p>Even at the first chapters when they explain very basic thinks that I already knew, I learn a lot of new things with each page. It really worths to read it :-)</p>
+
+<p>I will write here some notes about things I learn (or re-learn) with this and other books. I hope be useful for somebody. Anyway, it will be for me :-P</p>
+
+<p>Happy reading and happy hacking ;-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The classic: Hello World!]]></title>
