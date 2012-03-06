@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | My personal dev blog]]></title>
   <link href="http://juanje.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://juanje.github.com/"/>
-  <updated>2012-03-06T02:31:58+00:00</updated>
+  <updated>2012-03-06T02:52:51+00:00</updated>
   <id>http://juanje.github.com/</id>
   <author>
     <name><![CDATA[Juanje Ojeda]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[hashes at Ruby1.9 are sexy]]></title>
+    <link href="http://juanje.github.com/blog/2012/03/06/hashes-at-ruby1-dot-9-are-sexy/"/>
+    <updated>2012-03-06T02:36:00+00:00</updated>
+    <id>http://juanje.github.com/blog/2012/03/06/hashes-at-ruby1-dot-9-are-sexy</id>
+    <content type="html"><![CDATA[<p>Probably everybody knew that, but I didn't when I readed at the <a href="http://pragprog.com/book/ruby3/programming-ruby-1-9">Programming Ruby</a> book.</p>
+
+<p>I was use to the no so sexy syntax for the hashes in Ruby:</p>
+
+<p><code>ruby
+numbers = { "one" =&gt; "uno", "two" =&gt; "dos", "three" =&gt; "tres" }
+</code></p>
+
+<p>Although is very common to see them at code using symbols as keys and split the elements into lines:</p>
+
+<p><code>ruby
+numbers = {
+  :one   =&gt; "uno",
+  :two   =&gt; "dos",
+  :three =&gt; "tres"
+}
+</code></p>
+
+<p>which, actually, looks nicer... (at least to me)</p>
+
+<p>But in Ruby 1.9 they decide that if this was so common, maybe it could me a good idea simplify it. So now we can do the same by doing:</p>
+
+<p><code>ruby
+numbers = {
+  one:   "uno",
+  two:   "dos",
+  three: "tres"
+}
+</code></p>
+
+<p>It is less verbose and, I think, more natural.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[back with Ruby]]></title>
