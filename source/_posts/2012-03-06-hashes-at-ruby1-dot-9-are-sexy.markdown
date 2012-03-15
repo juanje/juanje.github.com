@@ -3,7 +3,9 @@ layout: post
 title: "hashes at Ruby1.9 are sexy"
 date: 2012-03-06 02:36
 comments: true
-categories: ruby
+categories:
+- ruby
+- Ruby 1.9
 ---
 
 Probably everybody knew that, but I didn't when I readed at the [Programming Ruby](http://pragprog.com/book/ruby3/programming-ruby-1-9) book.
