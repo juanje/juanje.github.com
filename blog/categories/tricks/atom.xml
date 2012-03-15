@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tricks | My personal dev blog]]></title>
+  <link href="http://juanje.github.com/blog/categories/tricks/atom.xml" rel="self"/>
+  <link href="http://juanje.github.com/"/>
+  <updated>2012-03-15T04:21:30+00:00</updated>
+  <id>http://juanje.github.com/</id>
+  <author>
+    <name><![CDATA[Juanje Ojeda]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Symbol.to_proc Trick]]></title>
+    <link href="http://juanje.github.com/blog/2012/03/15/the-symbol-dot-to-proc-trick/"/>
+    <updated>2012-03-15T03:18:00+00:00</updated>
+    <id>http://juanje.github.com/blog/2012/03/15/the-symbol-dot-to-proc-trick</id>
+    <content type="html"><![CDATA[<p>Sometimes I find myself saying: "must be a better way to do this". And sometimes, there are :-)</p>
+
+<p>This is the case of processing the elements of a list. Let's see it in an example:</p>
+
+<p>I have a object <code>shop_list</code> which is a string with a list of element separated by comas
+<code>ruby
+1.9.3-p0 :002 &gt; shop_list
+ =&gt; "oranges, eggs, oat, water"
+</code></p>
+
+<p>when I split them I get:
+<code>ruby
+1.9.3-p0 :003 &gt; shop_list.split(',')
+ =&gt; ["oranges", " eggs", " oat", " water"]
+</code></p>
+
+<p>But some of the new elements of the list have a space before them. And I need the list with no spaces to send it to another object, method, app or whatever which doesn't like those extra spaces.
+I can remove them like this:</p>
+
+<p><code>ruby
+1.9.3-p0 :004 &gt; shop_list.split(',').map { |e| e.strip }
+ =&gt; ["oranges", "eggs", "oat", "water"]
+</code></p>
+
+<p>But at Ruby 1.9 we have a simpler way to do the same and is more concise:</p>
+
+<p><code>ruby
+1.9.3-p0 :005 &gt; shop_list.split(',').map(&amp;:strip)
+ =&gt; ["oranges", "eggs", "oat", "water"]
+</code></p>
+
+<p>So this:
+```ruby</p>
+
+<h1>name_args = "oranges, eggs, oat, water"</h1>
+
+<p>shop_list = name_args.split(',').map do |item|
+  item.strip
+end
+```</p>
+
+<p>is the same as this:
+```ruby</p>
+
+<h1>name_args = "oranges, eggs, oat, water"</h1>
+
+<p>shop_list = name_args.split(',').map(&amp;:strip)
+```</p>
+
+<p>The reason is because there is a method called <code>to_proc</code> that convert an object prefixed with an ampersand (<code>&amp;</code>) in a method to call. Ruby will see the symbol (<code>:strip</code>) and it will try to convert it into a Proc to call the block with the list from the <code>map</code> and invoking the method <code>strip</code> at each one of the elements from the list.</p>
+
+<p>Ok, this is not the best explanation ever but I like the new concise form :-)</p>
+]]></content>
+  </entry>
+  
+</feed>

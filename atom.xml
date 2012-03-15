@@ -4,7 +4,7 @@
   <title><![CDATA[My personal dev blog]]></title>
   <link href="http://juanje.github.com/atom.xml" rel="self"/>
   <link href="http://juanje.github.com/"/>
-  <updated>2012-03-13T20:33:13+00:00</updated>
+  <updated>2012-03-15T04:21:30+00:00</updated>
   <id>http://juanje.github.com/</id>
   <author>
     <name><![CDATA[Juanje Ojeda]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Symbol.to_proc Trick]]></title>
+    <link href="http://juanje.github.com/blog/2012/03/15/the-symbol-dot-to-proc-trick/"/>
+    <updated>2012-03-15T03:18:00+00:00</updated>
+    <id>http://juanje.github.com/blog/2012/03/15/the-symbol-dot-to-proc-trick</id>
+    <content type="html"><![CDATA[<p>Sometimes I find myself saying: &#8220;must be a better way to do this&#8221;. And sometimes, there are :-)</p>
+
+<p>This is the case of processing the elements of a list. Let&#8217;s see it in an example:</p>
+
+<p>I have a object <code>shop_list</code> which is a string with a list of element separated by comas</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="n">shop_list</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;oranges, eggs, oat, water&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>when I split them I get:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">003</span> <span class="o">&gt;</span> <span class="n">shop_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot; eggs&quot;</span><span class="p">,</span> <span class="s2">&quot; oat&quot;</span><span class="p">,</span> <span class="s2">&quot; water&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But some of the new elements of the list have a space before them. And I need the list with no spaces to send it to another object, method, app or whatever which doesn&#8217;t like those extra spaces.
+I can remove them like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">004</span> <span class="o">&gt;</span> <span class="n">shop_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">strip</span> <span class="p">}</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot;eggs&quot;</span><span class="p">,</span> <span class="s2">&quot;oat&quot;</span><span class="p">,</span> <span class="s2">&quot;water&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But at Ruby 1.9 we have a simpler way to do the same and is more concise:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">005</span> <span class="o">&gt;</span> <span class="n">shop_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:strip</span><span class="p">)</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot;eggs&quot;</span><span class="p">,</span> <span class="s2">&quot;oat&quot;</span><span class="p">,</span> <span class="s2">&quot;water&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># name_args = &quot;oranges, eggs, oat, water&quot;</span>
+</span><span class='line'><span class="n">shop_list</span> <span class="o">=</span> <span class="n">name_args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">item</span><span class="o">.</span><span class="n">strip</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>is the same as this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># name_args = &quot;oranges, eggs, oat, water&quot;</span>
+</span><span class='line'><span class="n">shop_list</span> <span class="o">=</span> <span class="n">name_args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:strip</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The reason is because there is a method called <code>to_proc</code> that convert an object prefixed with an ampersand (<code>&amp;</code>) in a method to call. Ruby will see the symbol (<code>:strip</code>) and it will try to convert it into a Proc to call the block with the list from the <code>map</code> and invoking the method <code>strip</code> at each one of the elements from the list.</p>
+
+<p>Ok, this is not the best explanation ever but I like the new concise form :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[hashes at Ruby1.9 are sexy]]></title>
