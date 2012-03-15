@@ -4,7 +4,7 @@
   <title><![CDATA[My personal dev blog]]></title>
   <link href="http://juanje.github.com/atom.xml" rel="self"/>
   <link href="http://juanje.github.com/"/>
-  <updated>2012-03-15T04:21:30+00:00</updated>
+  <updated>2012-03-15T22:28:40+00:00</updated>
   <id>http://juanje.github.com/</id>
   <author>
     <name><![CDATA[Juanje Ojeda]]></name>
@@ -12,6 +12,153 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Some Ruby regex tips]]></title>
+    <link href="http://juanje.github.com/blog/2012/03/15/some-ruby-regex-tips/"/>
+    <updated>2012-03-15T20:39:00+00:00</updated>
+    <id>http://juanje.github.com/blog/2012/03/15/some-ruby-regex-tips</id>
+    <content type="html"><![CDATA[<p>I haven&#8217;t been fan to the regular expresion myself, but they are very useful and I try to learn each day to use their potencial.</p>
+
+<p>I going to write down here some tips that I have found useful and I like to remember. I hope this helps anyone else.</p>
+
+<p>First it&#8217;s important to remember that the <code>Strings</code> are very powerfull <em>per se</em> and sometimes there is no need for a regular expresions. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">000</span> <span class="o">&gt;</span> <span class="s1">&#39;Here is some ramdom text&#39;</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;ramdom&#39;</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are a lot of interesting methods for <code>Strings</code> and I love them, but let&#8217;s see some cases for regex:</p>
+
+<p>The tipical base case is the previous one, check if there is some text or pattern inside one string. This can be done by doing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/ramdom/</span> <span class="o">=~</span> <span class="s1">&#39;Here is some ramdom text&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return the position in the string where the pattern start and <code>nil</code> if the pattern doesn&#8217;t match. You can use it in a <code>if</code> stament to see if this match. The positive value that indicate the position will count as <code>true</code> for the <code>if</code>, so we can follow with our workflow.</p>
+
+<p>The string that match with the pattern will be stored in a special var. From <code>$1</code> to <code>$9</code> are reserved for this purpose. But, nine vars? Yes, because we can search for more than one pattern and store their values in different variables. Those patterns are called <em>groups</em> and are delimited by parentesis. Lets see it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/.*(first).*(second)/</span> <span class="o">=~</span> <span class="s1">&#39;Something first and second&#39;</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">001</span> <span class="o">&gt;</span> <span class="sr">/.*(first).*(second)/</span> <span class="o">=~</span> <span class="s1">&#39;Something first and second&#39;</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="vg">$1</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;first&quot;</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">003</span> <span class="o">&gt;</span> <span class="vg">$2</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;second&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Oviously is is very simple and silly example. Well this is very basic, but what I wanted to talk about is how to work better with those groups and special variables.
+Groups are used for capturing text, but also to define alternatives in a patterns. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">files</span> <span class="o">=</span> <span class="sx">%w( home.png party.jpg party_music.mp3 )</span>
+</span><span class='line'><span class="c1">#  =&gt; [&quot;home.png&quot;, &quot;party.jpg&quot;, &quot;party_music.mp3&quot;] </span>
+</span><span class='line'><span class="n">photos</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span><span class="sr"> /\w+\.(png|jpg)/</span> <span class="o">=~</span> <span class="n">f</span> <span class="p">}</span>
+</span><span class='line'><span class="c1">#  =&gt; [&quot;home.png&quot;, &quot;party.jpg&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So the pattern will match eigther with <code>/\w+\.png/</code> or <code>/\w+\.jpg/</code>. This is very useful and is tipical from any language or tool that support regex, but is good to know.
+But one interesting thing that I have learnt recently is how to avoid to feed the special variables with the matches&#8217; results.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># We have those sentences:</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">001</span> <span class="o">&gt;</span> <span class="n">senteces</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span>   <span class="s1">&#39;John is crazy&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">003</span> <span class="o">&gt;</span>   <span class="s1">&#39;Anne is crazy&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">004</span> <span class="o">&gt;</span>   <span class="s1">&#39;Peter is crazy&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">005</span> <span class="o">&gt;</span>   <span class="s1">&#39;John is kidding&#39;</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="c1">#  =&gt; [&quot;John is crazy&quot;, &quot;Anne is crazy&quot;, &quot;Peter is crazy&quot;, &quot;John is kidding&quot;]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># We want to check what is says about &#39;John&#39; or &#39;Anne&#39;</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">006</span> <span class="o">&gt;</span> <span class="n">senteces</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">sentence</span><span class="o">|</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">007</span> <span class="o">&gt;</span>   <span class="k">if</span><span class="sr"> /(John|Anne) is (\w+)$/</span> <span class="o">=~</span> <span class="n">sentence</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">00</span><span class="mi">8</span> <span class="o">&gt;</span>     <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vg">$1</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">#{</span><span class="vg">$2</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">00</span><span class="mi">9</span> <span class="o">&gt;</span>   <span class="k">end</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">010</span> <span class="o">&gt;</span> <span class="k">end</span>
+</span><span class='line'><span class="no">John</span> <span class="o">-&gt;</span> <span class="n">crazy</span>
+</span><span class='line'><span class="no">Anne</span> <span class="o">-&gt;</span> <span class="n">crazy</span>
+</span><span class='line'><span class="no">John</span> <span class="o">-&gt;</span> <span class="n">kidding</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But there is a nicer way to save the matches, we can store them in our own variables:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">011</span> <span class="o">&gt;</span> <span class="n">senteces</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">sentence</span><span class="o">|</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">012</span> <span class="o">&gt;</span>   <span class="k">if</span><span class="sr"> /(?&lt;name&gt;John|Anne) is (?&lt;wat&gt;\w+)$/</span> <span class="o">=~</span> <span class="n">sentence</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">013</span> <span class="o">&gt;</span>     <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">#{</span><span class="n">wat</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">014</span> <span class="o">&gt;</span>   <span class="k">end</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">015</span> <span class="o">&gt;</span> <span class="k">end</span>
+</span><span class='line'><span class="no">John</span> <span class="o">-&gt;</span> <span class="n">crazy</span>
+</span><span class='line'><span class="no">Anne</span> <span class="o">-&gt;</span> <span class="n">crazy</span>
+</span><span class='line'><span class="no">John</span> <span class="o">-&gt;</span> <span class="n">kidding</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And you also can ignore any group. I found this useful at the <code>step_definitions</code> for <em>Cucumber</em>. Here is one example I did time ago:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">When</span><span class="sr"> /^the calculator (divide|substract) the (\d+) (?:by|to) the (\d+)$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">command</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="o">|</span>
+</span><span class='line'>  <span class="vi">@output</span> <span class="o">=</span> <span class="sb">`ruby bin/rcalc </span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="sb"> </span><span class="si">#{</span><span class="vi">@first</span><span class="si">}</span><span class="sb"> </span><span class="si">#{</span><span class="vi">@second</span><span class="si">}</span><span class="sb">`</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="vg">$?</span><span class="o">.</span><span class="n">success?</span><span class="o">.</span><span class="n">should</span> <span class="n">be_true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cucumber checks for this regex againts the <em>features</em> and pass the groups founded to the block (as <code>command</code>, <code>arg1</code> and <code>arg2</code>). In this perticular case I want a expresion that matched with that kind of sentence but I didn&#8217;t want to store <code>by</code> or <code>to</code>. Mostly beacuse Cucumber highlight the groups matched at the output and I didn&#8217;t want for those words. I just wanted reuse the regex to both cases.
+Anyways, I found <code>(?:regex)</code> interesting and useful.</p>
+
+<p>Well, I don&#8217;t know if someone find this useful, but at least I got this written down as alternative to my bad memory :-P</p>
+
+<p>Oh, btw, If you are going to use regular expresions in Ruby I higly recomended you <a href="http://rubular.com/">Rubular</a>. Which is an awesome online Ruby regular expresion editor. Has some nice quick reference and check on-the-fly all your expresions and cases. Really cool :-)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Symbol.to_proc Trick]]></title>

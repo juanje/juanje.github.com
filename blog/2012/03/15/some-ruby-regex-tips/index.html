@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My personal dev blog</title>
+  <title>Some Ruby regex tips - My personal dev blog</title>
   <meta name="author" content="Juanje Ojeda">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://juanje.github.com">
+  <link rel="canonical" href="http://juanje.github.com/blog/2012/03/15/some-ruby-regex-tips">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/03/15/some-ruby-regex-tips/">Some Ruby Regex Tips</a></h1>
+      <h1 class="entry-title">Some Ruby Regex Tips</h1>
     
     
       <p class="meta">
@@ -88,14 +85,14 @@
 
 <time datetime="2012-03-15T20:39:00+00:00" pubdate data-updated="true">Mar 15<span>th</span>, 2012</time>
         
-         | <a href="/blog/2012/03/15/some-ruby-regex-tips/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I haven&#8217;t been fan to the regular expresion myself, but they are very useful and I try to learn each day to use their potencial.</p>
+<div class="entry-content"><p>I haven&#8217;t been fan to the regular expresion myself, but they are very useful and I try to learn each day to use their potencial.</p>
 
 <p>I going to write down here some tips that I have found useful and I like to remember. I hope this helps anyone else.</p>
 
@@ -235,125 +232,16 @@ Anyways, I found <code>(?:regex)</code> interesting and useful.</p>
 
 <p>Oh, btw, If you are going to use regular expresions in Ruby I higly recomended you <a href="http://rubular.com/">Rubular</a>. Which is an awesome online Ruby regular expresion editor. Has some nice quick reference and check on-the-fly all your expresions and cases. Really cool :-)</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/15/the-symbol-dot-to-proc-trick/">The Symbol.to_proc Trick</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Juanje Ojeda</span></span>
 
-<time datetime="2012-03-15T03:18:00+00:00" pubdate data-updated="true">Mar 15<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/15/the-symbol-dot-to-proc-trick/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Sometimes I find myself saying: &#8220;must be a better way to do this&#8221;. And sometimes, there are :-)</p>
-
-<p>This is the case of processing the elements of a list. Let&#8217;s see it in an example:</p>
-
-<p>I have a object <code>shop_list</code> which is a string with a list of element separated by comas</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="n">shop_list</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;oranges, eggs, oat, water&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>when I split them I get:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">003</span> <span class="o">&gt;</span> <span class="n">shop_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot; eggs&quot;</span><span class="p">,</span> <span class="s2">&quot; oat&quot;</span><span class="p">,</span> <span class="s2">&quot; water&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But some of the new elements of the list have a space before them. And I need the list with no spaces to send it to another object, method, app or whatever which doesn&#8217;t like those extra spaces.
-I can remove them like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">004</span> <span class="o">&gt;</span> <span class="n">shop_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">strip</span> <span class="p">}</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot;eggs&quot;</span><span class="p">,</span> <span class="s2">&quot;oat&quot;</span><span class="p">,</span> <span class="s2">&quot;water&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But at Ruby 1.9 we have a simpler way to do the same and is more concise:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p0</span> <span class="p">:</span><span class="mo">005</span> <span class="o">&gt;</span> <span class="n">shop_list</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:strip</span><span class="p">)</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;oranges&quot;</span><span class="p">,</span> <span class="s2">&quot;eggs&quot;</span><span class="p">,</span> <span class="s2">&quot;oat&quot;</span><span class="p">,</span> <span class="s2">&quot;water&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># name_args = &quot;oranges, eggs, oat, water&quot;</span>
-</span><span class='line'><span class="n">shop_list</span> <span class="o">=</span> <span class="n">name_args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">item</span><span class="o">.</span><span class="n">strip</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>is the same as this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># name_args = &quot;oranges, eggs, oat, water&quot;</span>
-</span><span class='line'><span class="n">shop_list</span> <span class="o">=</span> <span class="n">name_args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:strip</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The reason is because there is a method called <code>to_proc</code> that convert an object prefixed with an ampersand (<code>&amp;</code>) in a method to call. Ruby will see the symbol (<code>:strip</code>) and it will try to convert it into a Proc to call the block with the list from the <code>map</code> and invoking the method <code>strip</code> at each one of the elements from the list.</p>
-
-<p>Ok, this is not the best explanation ever but I like the new concise form :-)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/06/hashes-at-ruby1-dot-9-are-sexy/">Hashes at Ruby1.9 Are Sexy</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -365,170 +253,44 @@ I can remove them like this:</p>
   
 
 
-<time datetime="2012-03-06T02:36:00+00:00" pubdate data-updated="true">Mar 6<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/06/hashes-at-ruby1-dot-9-are-sexy/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Probably everybody knew that, but I didn&#8217;t when I readed at the <a href="http://pragprog.com/book/ruby3/programming-ruby-1-9">Programming Ruby</a> book.</p>
-
-<p>I was use to the no so sexy syntax for the hashes in Ruby:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;one&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;uno&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;dos&quot;</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;tres&quot;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Although is very common to see them at code using symbols as keys and split the elements into lines:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="ss">:one</span>   <span class="o">=&gt;</span> <span class="s2">&quot;uno&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:two</span>   <span class="o">=&gt;</span> <span class="s2">&quot;dos&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="ss">:three</span> <span class="o">=&gt;</span> <span class="s2">&quot;tres&quot;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>which, actually, looks nicer&#8230; (at least to me)</p>
-
-<p>But in Ruby 1.9 they decide that if this was so common, maybe it could me a good idea simplify it. So now we can do the same by doing:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">one</span><span class="p">:</span>   <span class="s2">&quot;uno&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">two</span><span class="p">:</span>   <span class="s2">&quot;dos&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">three</span><span class="p">:</span> <span class="s2">&quot;tres&quot;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It is less verbose and, I think, more natural.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2012-03-15T20:39:00+00:00" pubdate data-updated="true">Mar 15<span>th</span>, 2012</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/06/back-with-ruby/">Back With Ruby</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/regex/'>regex</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
 
 
-<time datetime="2012-03-06T01:57:00+00:00" pubdate data-updated="true">Mar 6<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/06/back-with-ruby/#disqus_thread">Comments</a>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>Long time ago (thanks to a <a href="http://hcoder.org/">good friend</a>) <strong>I felt in love with Ruby</strong> (<em>I think it was around 2001</em>), but I didn&#8217;t get much into it until years later (2005) when I did some stuff at work.
-All these years I&#8217;ve been thinking about come back to learn Ruby and write some code, but you know&#8230; time, work&#8230;</p>
-
-<p>Now I&#8217;m free and have some free time for me to learn all the thing I want, so I&#8217;ll do so :-)</p>
-
-<p>After (buy and) read some books from <a href="http://pragprog.com/">The Pragmatic Bookself</a> I decided to give a try to the famous <a href="http://pragprog.com/book/ruby3/programming-ruby-1-9">Programming Ruby</a>. I checked the new version and I realised the book was really improved from the previous ones. <em>Ruby 1.9</em> and really better explanations about the differents subjects.</p>
-
-<p>Even at the first chapters when they explain very basic thinks that I already knew, I learn a lot of new things with each page. It really worths to read it :-)</p>
-
-<p>I will write here some notes about things I learn (or re-learn) with this and other books. I hope be useful for somebody. Anyway, it will be for me :-P</p>
-
-<p>Happy reading and happy hacking ;-)</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://juanje.github.com/blog/2012/03/15/some-ruby-regex-tips/" data-via="juanjeojeda" data-counturl="http://juanje.github.com/blog/2012/03/15/some-ruby-regex-tips/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/18/the-classic-hello-world/">The Classic: Hello World!</a></h1>
-    
-    
-      <p class="meta">
-        
+        <a class="basic-alignment left" href="/blog/2012/03/15/the-symbol-dot-to-proc-trick/" title="Previous Post: The Symbol.to_proc Trick">&laquo; The Symbol.to_proc Trick</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-18T05:06:00+00:00" pubdate data-updated="true">Feb 18<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/02/18/the-classic-hello-world/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s1">&#39;Hello world!&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Hi :-)</p>
-
-<p>This is <em>Yet Another Dev Blog</em>. I got already <a href="http://blogs.gnome.org/juanje">one for GNOME and Distros&#8217; stuff</a>, but I just wanted to try this blog tool made for developers, <a href="http://octopress.org/">Octopress</a>, and see if is easier to share code and ideas.</p>
-
-<p>Actually, some times I just need a place to save my gist with some comments or exaplanation. Other I just want to express some crazy technical ideas, so I think <a href="http://github.com">Github</a> is a good place for this sort of things :-P</p>
-
-<p>I warning you that I&#8217;ll probably talk a lot about <strong>Ruby</strong>, <a href="http://wiki.opscode.com/display/chef">Chef</a>, <a href="http://www.jedi.be/blog/2010/02/12/what-is-this-devops-thing-anyway/">DevOps</a>, <a href="http://en.wikipedia.org/wiki/Behavior_Driven_Development">BDD</a>, <a href="http://vagrantup.com/">Vagrant</a> and more similar stuff that I&#8217;m crazy about right now :-)</p>
-
-<p>See you soon and Happy Hacking!</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
+  </section>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -561,7 +323,7 @@ All these years I&#8217;ve been thinking about come back to learn Ruby and write
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/juanje">@juanje</a> on Github
@@ -591,7 +353,7 @@ All these years I&#8217;ve been thinking about come back to learn Ruby and write
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -618,6 +380,7 @@ All these years I&#8217;ve been thinking about come back to learn Ruby and write
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -632,7 +395,10 @@ All these years I&#8217;ve been thinking about come back to learn Ruby and write
       var disqus_shortname = 'juanjedevblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://juanje.github.com/blog/2012/03/15/some-ruby-regex-tips/';
+        var disqus_url = 'http://juanje.github.com/blog/2012/03/15/some-ruby-regex-tips/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
